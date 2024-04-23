@@ -1,6 +1,0 @@
-[submodule "AIWolfNLAgentPython"]
-	path = AIWolfNLAgentPython
-	url = https://github.com/aiwolfdial/AIWolfNLAgentPython.git
-[submodule "AIWolfNLGameServer"]
-	path = AIWolfNLGameServer
-	url = https://github.com/aiwolfdial/AIWolfNLGameServer
