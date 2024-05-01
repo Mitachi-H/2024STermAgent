@@ -1,11 +1,12 @@
 import configparser
 from typing import Union
 import lib
-import player
+# MEMO: player -> player2024s
+import player2024s 
 from lib.AIWolf.commands import AIWolfCommand
 
 def main(sock:Union[lib.connection.TCPServer,lib.connection.TCPClient], inifile:configparser.ConfigParser, received:list, name:str):
-    agent = player.agent.Agent(inifile=inifile,name=name)
+    agent = player2024s.agent.Agent2024s(inifile=inifile,name=name)
     if received != None: agent.set_received(received=received)
 
     while agent.gameContinue:

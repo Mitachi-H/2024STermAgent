@@ -2,7 +2,8 @@ import os
 import errno
 import configparser
 import random
-import player
+# MEMO: player -> player2024s
+import player2024s
 
 def read_text(path:str):
     with open(path,"r",encoding="utf-8") as f:
@@ -31,15 +32,15 @@ def is_json_complate(responces:bytes) -> bool:
     
     return cnt == 0
 
-def init_role(agent:player.agent.Agent, inifile:configparser.ConfigParser, name:str):
+def init_role(agent:player2024s.agent.Agent2024s, inifile:configparser.ConfigParser, name:str):
     if agent.role == "VILLAGER":
-        new_agent = player.villager.Villager(inifile=inifile, name=name)
+        new_agent = player2024s.villager.Villager(inifile=inifile, name=name)
     elif agent.role == "WEREWOLF":
-        new_agent = player.werewolf.Werewolf(inifile=inifile, name=name)
+        new_agent = player2024s.werewolf.Werewolf(inifile=inifile, name=name)
     elif agent.role == "SEER":
-        new_agent = player.seer.Seer(inifile=inifile, name=name)
+        new_agent = player2024s.seer.Seer(inifile=inifile, name=name)
     elif agent.role == "POSSESSED":
-        new_agent = player.possessed.Possessed(inifile=inifile, name=name)
+        new_agent = player2024s.possessed.Possessed(inifile=inifile, name=name)
 
     agent.hand_over(new_agent=new_agent)
 
