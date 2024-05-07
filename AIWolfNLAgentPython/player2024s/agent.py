@@ -1,6 +1,6 @@
 import json
 import configparser
-from ..player.agent import Agent
+from player.agent import Agent
 
 
 class Agent2024s(Agent):
