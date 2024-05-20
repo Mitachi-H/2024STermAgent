@@ -11,7 +11,17 @@ class Seer(player2024s.agent.Agent2024s):
         return super().parse_info(receive)
     
     def get_info(self):
-        return super().get_info()
+        super().get_info()
+    
+        print("\n")
+        print(f"myRole: {type(self)}")
+        print(f"gameInfo: {self.gameInfo}")
+        print(f"gameSetting: {self.gameSetting}")
+        print(f"request: {self.request}")
+        print(f"talkHistory: {self.talkHistory}")
+        print(f"whisperHistory: {self.whisperHistory}")
+
+        return
     
     def initialize(self) -> None:
         return super().initialize()
