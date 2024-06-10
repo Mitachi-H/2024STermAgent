@@ -1,4 +1,4 @@
-from typing import List, Dict, Optional, TypedDict
+from typing import List, Dict, Optional, TypedDict, NotRequired
 
 class GameInfo(TypedDict):
     agent: int
@@ -32,4 +32,13 @@ class Talk(TypedDict):
     turn: int
 
 class TalkHistory(List[Talk]):
+    """
+    その日のそれまでの会話。
+    """
     pass
+
+class PredictionRole(TypedDict):
+    agent_id: str
+    alive: bool
+    role: NotRequired[str]
+    reason: NotRequired[str]
