@@ -1,12 +1,32 @@
-from typing import List, Dict, Optional, TypedDict, NotRequired
+from pydantic import BaseModel, Field
+from typing import List, Dict, Optional
 
-class GameInfo(TypedDict):
+class Talk(BaseModel):
+    agent: int
+    day: int
+    idx: int
+    text: str
+    turn: int
+
+# TalkHistoryをList[Talk]として定義
+class TalkHistory(List[Talk]):
+    """
+    その日のそれまでの会話のリスト。
+    """
+
+class PredictionRole(BaseModel):
+    agent_id: str
+    alive: bool
+    role: Optional[str] = Field(default=None)
+    reason: Optional[str] = Field(default=None)
+
+class GameInfo(BaseModel):
     agent: int
     attackVoteList: List[int]
     attackedAgent: int
     cursedFox: int
     day: int
-    divineResult: Optional[str]
+    divineResult: Optional[str] = None
     englishTalkList: List[Dict[str, str]]
     executedAgent: int
     existingRoleList: List[str]
@@ -15,7 +35,7 @@ class GameInfo(TypedDict):
     latestAttackVoteList: List[int]
     latestExecutedAgent: int
     latestVoteList: List[int]
-    mediumResult: Optional[str]
+    mediumResult: Optional[str] = None
     remainTalkMap: Dict[str, int]
     remainWhisperMap: Dict[str, int]
     roleMap: Dict[str, str]
@@ -23,22 +43,3 @@ class GameInfo(TypedDict):
     talkList: List[Dict[str, str]]
     voteList: List[Dict[str, int]]
     whisperList: List[Dict[str, str]]
-
-class Talk(TypedDict):
-    agent: int
-    day: int
-    idx: int
-    text: str
-    turn: int
-
-class TalkHistory(List[Talk]):
-    """
-    その日のそれまでの会話。
-    """
-    pass
-
-class PredictionRole(TypedDict):
-    agent_id: str
-    alive: bool
-    role: NotRequired[str]
-    reason: NotRequired[str]

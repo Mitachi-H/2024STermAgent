@@ -3,7 +3,7 @@ from player2024s.langchain import OpenAIAgent
 
 openai_agent = OpenAIAgent(temperature=1)
 
-def get_stance(agent_id: str, day_stances: list[str], talk_history: TalkHistory) -> str:
+def get_stance(agent_id: str, day_stances: dict[int, str], talk_history: TalkHistory) -> str:
     """
     AgentのStanceの更新
     """
@@ -21,10 +21,9 @@ def get_stance(agent_id: str, day_stances: list[str], talk_history: TalkHistory)
     print(output)
     return output
 
-def get_str_day_stances(day_stances: list[str]) -> str:
-    return " ".join(day_stances)
+def get_str_day_stances(day_stances: dict[int, str]) -> str:
+    return str(day_stances)
 
 def get_str_talk_history(talk_history: TalkHistory) -> str:
     # MEMO: day, idx, turnはいらなそう
-    # TODO: strしてからjoinだと間違い。
-    return " ".join(str(talk_history))
+    return "".join([str(talk) for talk in talk_history])

@@ -1,6 +1,8 @@
 from player2024s.info_types import TalkHistory, GameInfo
 from player2024s.functions.get_stance import get_stance
 
+
+
 class Stance():
     """
     他プレイヤーのスタンス
@@ -10,7 +12,7 @@ class Stance():
         self.agent_id: str = agent_id
         self.alive: bool = True
         # 考察
-        self.day_stances: list[str] = [] # 日毎の発言のまとめ
+        self.day_stances: dict[int, str] = {} # 日毎の発言のまとめ
         # self.habit = None
 
     def update_alive(self, alive: bool) -> None:
@@ -23,5 +25,4 @@ class Stance():
 
         stance:str = get_stance(self.agent_id, self.day_stances, talk_history)
 
-        if len(self.day_stances) >= day: self.day_stances.append("")
         self.day_stances[day-1] = stance # 同じ日のスタンスは上書き
