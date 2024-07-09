@@ -1,5 +1,4 @@
-from player2024s.info_types import PredictionRole
-from typing import List
+from player2024s.info_types import PredictionRole, PredictionRoleList
 from player2024s.stance import Stance
 from player2024s.langchain import OpenAIAgent
 
@@ -16,6 +15,7 @@ def get_prediction_role(
     あなたは人狼ゲームをプレイしています。
     ```
     """
+    # TODO: 出力に必ずすべてのagentを含めるようにする
     template = """
     あなたの名前はAgent[0{agent_id}]です。stancesを参照して、各Agentの役職を推定しなさい。
     stances
@@ -29,9 +29,9 @@ def get_prediction_role(
         "prev_predict_roles": get_str_prev_predict_roles(prev_predict_roles)
     }
 
-    # TODO: List[PredictionRole]はBaseModelではない！ content: List[PredictionRole]とかで、wrapする！！
-    output: List[PredictionRole] = openai_agent.json_mode_chat(system, template, input, pydantic_object=List[PredictionRole])
-    print(output)
+    output: PredictionRoleList = openai_agent.json_mode_chat(system, template, input, pydantic_object=PredictionRoleList)
+    # print(output)
+    # print("\n")
     return output
 
 def get_str_stance(stance: Stance) -> str:

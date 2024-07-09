@@ -10,6 +10,7 @@ OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 from langchain_core.output_parsers import StrOutputParser
 from langchain.output_parsers import PydanticOutputParser
 from langchain_core.prompts import ChatPromptTemplate
+from langchain.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 from pydantic import BaseModel
 from typing import Type, Literal
@@ -37,19 +38,23 @@ class OpenAIAgent():
         return chain.invoke(input)
 
     def json_mode_chat(self, system: str, template: Literal["f-string", "mustache"], input: Input, pydantic_object: Type[BaseModel]) -> dict:
-        # langchain自体に、返り値の型を指定できるきのうがあるかも？？
         output_parser = PydanticOutputParser(pydantic_object=pydantic_object)
 
-        prompt = ChatPromptTemplate.from_messages(messages = [
-            ("system", system),
-            ("user", template)
-        ], partial_variables={"format_instructions": output_parser.get_format_instructions()}
-        )
+        # Prompt
+        prompt = ChatPromptTemplate.from_messages(
+            [
+                (
+                    "system",
+                    "{system}\nAnswer the user query. Wrap the output in `json` tags\n{format_instructions}",
+                ),
+                ("human", "{template}"),
+            ]
+        ).partial(format_instructions=output_parser.get_format_instructions())
 
         # OpenAIのAPIにこのプロンプトを送信するためのチェーンを作成
         chain = prompt | self.json_llm | output_parser
 
-        return chain.invoke(input)
+        return chain.invoke({"system": system, "template": template, **input})
 
     def test_chat(self):
         # プロンプトのテンプレート文章を定義

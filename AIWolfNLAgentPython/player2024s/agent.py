@@ -62,9 +62,11 @@ class Agent2024s(Agent):
         # 自分の戦略の更新
         self.update_my_tactics()
         # 発言
-        return self.generate_statement()
+        # return self.generate_statement()
+        return super().talk()
 
     def update_stances(self):
+        # TODO: 直列なのどうにかする（async）
         for stance in self.stances:
             stance.update(self.day, self.talkHistory)
     
@@ -72,7 +74,12 @@ class Agent2024s(Agent):
         self.predictions.update(self.stances)
 
     def update_my_tactics(self):
-        self.my_tactics.update(self.day, self.stances, self.predictions)
+        # print("\n")
+        # print("--- predictions ---")
+        # print( " ".join([str(predictionRole) for predictionRole in self.predictions.predict_roles]))
+        # print("---  ---")
+        # print("\n")
+        self.my_tactics.update(int(self.index), self.day, self.stances, self.predictions)
 
     def generate_statement(self):
         return generate_statement(self.talkHistory, self.my_tactics)

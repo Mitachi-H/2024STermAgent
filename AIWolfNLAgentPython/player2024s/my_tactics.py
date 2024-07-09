@@ -7,8 +7,8 @@ class MyTactics():
         self.tactics: list[str] = [] # 日毎の戦略
         pass
 
-    def update(self, day:int, stances: list[Stance], predictions: Predictions):
-        tactic:str = get_tactic(stances, predictions, self.tactics)
+    def update(self,agent_id: int, day:int, stances: list[Stance], predictions: Predictions):
+        tactic:str = get_tactic(agent_id, stances, predictions, self.tactics)
 
         if len(self.tactics) >= day: self.tactics.append("")
         self.tactics[day-1] = tactic # 同じ日のスタンスは上書きxw

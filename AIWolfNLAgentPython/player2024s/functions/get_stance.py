@@ -5,7 +5,7 @@ openai_agent = OpenAIAgent(temperature=1)
 
 def get_stance(agent_id: str, day_stances: dict[int, str], talk_history: TalkHistory) -> str:
     """
-    AgentのStanceの更新
+    AgentのStanceの更新:
     """
     system = "あなたは人狼ゲームをプレイしています"
     template = """
@@ -18,7 +18,7 @@ def get_stance(agent_id: str, day_stances: dict[int, str], talk_history: TalkHis
     input = {"agent_id": agent_id, "day_stances": get_str_day_stances(day_stances), "talk_history": get_str_talk_history(talk_history)}
 
     output = openai_agent.chat(system, template, input)
-    print(output)
+    # print(output)
     return output
 
 def get_str_day_stances(day_stances: dict[int, str]) -> str:

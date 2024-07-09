@@ -2,7 +2,6 @@ from player2024s.info_types import TalkHistory, GameInfo
 from player2024s.functions.get_stance import get_stance
 
 
-
 class Stance():
     """
     他プレイヤーのスタンス

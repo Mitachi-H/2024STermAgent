@@ -13,13 +13,13 @@ class Seer(player2024s.agent.Agent2024s):
     def get_info(self):
         super().get_info()
     
-        print("\n")
-        print(f"myRole: {type(self)}")
-        print(f"gameInfo: {self.gameInfo}")
-        print(f"gameSetting: {self.gameSetting}")
-        print(f"request: {self.request}")
-        print(f"talkHistory: {self.talkHistory}")
-        print(f"whisperHistory: {self.whisperHistory}")
+        # print("\n")
+        # print(f"myRole: {type(self)}")
+        # print(f"gameInfo: {self.gameInfo}")
+        # print(f"gameSetting: {self.gameSetting}")
+        # print(f"request: {self.request}")
+        # print(f"talkHistory: {self.talkHistory}")
+        # print(f"whisperHistory: {self.whisperHistory}")
 
         return
     

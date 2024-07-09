@@ -20,6 +20,9 @@ class PredictionRole(BaseModel):
     role: Optional[str] = Field(default=None)
     reason: Optional[str] = Field(default=None)
 
+class PredictionRoleList(BaseModel):
+    content: List[PredictionRole]
+
 class GameInfo(BaseModel):
     agent: int
     attackVoteList: List[int]

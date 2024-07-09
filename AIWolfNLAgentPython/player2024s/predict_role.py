@@ -8,7 +8,7 @@ class Predictions():
         self.predict_roles:list[PredictionRole] = [
             {"agent_id": agentId, "alive": True} for agentId in statusMap.keys()
         ]
-        self.reasons: str = None
+        # self.reasons: str = None
     
     def update_alive(self, alive: list[int]):
         for predict_role in self.predict_roles:
