@@ -48,7 +48,7 @@ class Agent2024s(Agent):
         super().daily_initialize()
 
         for stance in self.stances:
-            stance.update_alive(int(stance.agent_id) in self.alive)
+            stance.update_alive(int(stance.target_agent_id) in self.alive)
         self.predictions.update_alive(self.alive)
 
         day:int = int(self.gameInfo["day"])
@@ -89,7 +89,7 @@ class Agent2024s(Agent):
         initializeを受け取ったタイミングで実行
         """
         statusMap = self.gameInfo["statusMap"]
-        self.stances = [Stance(f"{int(agentId):02d}") for agentId in statusMap.keys()]
+        self.stances = [Stance(f"{int(self.index):02d}", self.role, f"{int(agentId):02d}") for agentId in statusMap.keys()]
 
     def init_predictions(self):
         """

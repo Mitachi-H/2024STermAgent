@@ -6,9 +6,11 @@ class Stance():
     """
     他プレイヤーのスタンス
     """
-    def __init__(self, agent_id: str) -> None:
+    def __init__(self, my_agent_id: str, my_agent_role: str, target_agent_id: str) -> None:
         # 基本情報
-        self.agent_id: str = agent_id
+        self.target_agent_id: str = target_agent_id
+        self.my_agent_id: str = my_agent_id
+        self.my_agent_role: str = my_agent_role
         self.alive: bool = True
         # 考察
         self.day_stances: dict[int, str] = {} # 日毎の発言のまとめ
@@ -22,6 +24,6 @@ class Stance():
         # 最初の発言の場合はupdate不要
         if len(talk_history) == 0: return
 
-        stance:str = get_stance(self.agent_id, self.day_stances, talk_history)
+        stance:str = get_stance(self.my_agent_id, self.my_agent_role, self.target_agent_id, self.day_stances, talk_history)
 
         self.day_stances[day-1] = stance # 同じ日のスタンスは上書き

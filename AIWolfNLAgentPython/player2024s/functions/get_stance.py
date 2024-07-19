@@ -3,22 +3,27 @@ from player2024s.langchain import OpenAIAgent
 
 openai_agent = OpenAIAgent(temperature=1)
 
-def get_stance(agent_id: str, day_stances: dict[int, str], talk_history: TalkHistory) -> str:
+def get_stance(
+        my_agent_id: str,
+        my_agent_role: str,
+        target_agent_id: str,
+        day_stances: dict[int, str],
+        talk_history: TalkHistory) -> str:
     """
     AgentのStanceの更新:
     """
+    
     system = "あなたは人狼ゲームをプレイしています"
     template = """
-    あなたの名前はAgent[0{agent_id}]です。
-    {talk_history}を参照して、あなたの発言をまとめなさい。
-    ただし、これまでの発言のまとめは以下のとおりです。
+    あなたの名前はAgent[0{my_agent_id}]で、役職は{my_agent_role}です。
+    {talk_history}を参照して、Agent[0{target_agent_id}]の発言をまとめなさい。
+    ただし、これまでの日毎の発言のまとめは以下のとおりです。
     {day_stances}
     """
 
-    input = {"agent_id": agent_id, "day_stances": get_str_day_stances(day_stances), "talk_history": get_str_talk_history(talk_history)}
+    input = {"my_agent_id": my_agent_id, "my_agent_role": my_agent_role, "target_agent_id": target_agent_id, "day_stances": get_str_day_stances(day_stances), "talk_history": get_str_talk_history(talk_history)}
 
     output = openai_agent.chat(system, template, input)
-    # print(output)
     return output
 
 def get_str_day_stances(day_stances: dict[int, str]) -> str:
