@@ -74,12 +74,7 @@ class Agent2024s(Agent):
         self.predictions.update(self.stances)
 
     def update_my_tactics(self):
-        # print("\n")
-        # print("--- predictions ---")
-        # print( " ".join([str(predictionRole) for predictionRole in self.predictions.predict_roles]))
-        # print("---  ---")
-        # print("\n")
-        self.my_tactics.update(int(self.index), self.day, self.stances, self.predictions)
+        self.my_tactics.update(self.index, self.day, self.stances, self.predictions)
 
     def generate_statement(self):
         return generate_statement(self.talkHistory, self.my_tactics)

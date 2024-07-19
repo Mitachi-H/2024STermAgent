@@ -42,8 +42,8 @@ class Agent:
         self.whisperHistory = data["whisperHistory"]
    
     def initialize(self) -> None:
-        self.index = self.gameInfo["agent"]
-        self.role = self.gameInfo["roleMap"][str(self.index)]
+        self.index: int = self.gameInfo["agent"]
+        self.role: str = self.gameInfo["roleMap"][str(self.index)]
 
     def daily_initialize(self) -> None:
         self.alive = []

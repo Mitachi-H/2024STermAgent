@@ -1,18 +1,21 @@
+from player2024s.predict_role import Predictions
 from player2024s.info_types import PredictionRole
 from player2024s.stance import Stance
 from player2024s.langchain import OpenAIAgent
 
-openai_agent = OpenAIAgent(temperature=x)
+openai_agent = OpenAIAgent(temperature=1)
 
 def get_tactic(
         agent_id: int,
         stances: list[Stance],
-        predictions: list[PredictionRole],
+        predictions: Predictions,
         prev_tactics: list[str]
         ) -> str:
     """
     戦略の更新
     args:
+        - agent_id: 自分のエージェントID
+        - stances: 各エージェントのスタンス(5人分)
     """
 
     system = "あなたは人狼ゲームをプレイしています"
@@ -26,20 +29,22 @@ def get_tactic(
     {predictions}
     """
 
-    # input = {"agent_id": agent_id, "day_stances": get_str_day_stances(day_stances), "talk_history": get_str_talk_history(talk_history)}
     input = {"agent_id": agent_id, "stances": get_str_stances(stances), "predictions": get_str_predictions(predictions), "prev_tactics": get_str_prev_tactics(prev_tactics)}
 
     output = openai_agent.chat(system, template, input)
     # print(output)
     return output
 
-# TODO: この関数を完成させる
-def get_str_stances(stances: list[Stance]):
-    return ""
+def get_str_stance(stance: Stance) -> str:
+    return "Agent_id: " + stance.target_agent_id + "Stances: " +  str(stance.day_stances)
 
-def get_str_predictions(predict_roles: list[PredictionRole]) -> str:
+def get_str_stances(stances: list[Stance]) -> str:
+    return " ".join([get_str_stance(stance) for stance in stances])
+
+def get_str_predictions(predictions: Predictions) -> str:
+    predict_roles:list[PredictionRole] = predictions.predict_roles
     return " ".join([str(predictionRole) for predictionRole in predict_roles])
 
 # TODO: この関数を完成させる
 def get_str_prev_tactics(prev_tactics: list[str]):
-    return ""
+    return " ".join(prev_tactics)
