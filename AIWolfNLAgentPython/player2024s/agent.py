@@ -7,7 +7,7 @@ from player2024s.predict_role import Predictions
 
 from player2024s.functions.generate_statement import generate_statement
 
-from player2024s.info_types import GameInfo, TalkHistory
+from player2024s.info_types import GameInfo, GameSetting, TalkHistory
 from typing import Union
 
 class Agent2024s(Agent):
@@ -18,7 +18,7 @@ class Agent2024s(Agent):
         self.day: int = 0
 
         # 考察Class
-        self.my_tactics = MyTactics()
+        self.my_tactics: MyTactics = MyTactics()
         self.stances = []
         self.predictions = None
 
@@ -29,7 +29,7 @@ class Agent2024s(Agent):
         data = json.loads(self.received.pop(0))
 
         self.gameInfo: Union[None, GameInfo] = data["gameInfo"] 
-        self.gameSetting = data["gameSetting"]
+        self.gameSetting: Union[None, GameSetting] = data["gameSetting"]
         self.request = data["request"]
         self.talkHistory: TalkHistory = data["talkHistory"]
         self.whisperHistory = data["whisperHistory"]
@@ -62,8 +62,7 @@ class Agent2024s(Agent):
         # 自分の戦略の更新
         self.update_my_tactics()
         # 発言
-        # return self.generate_statement()
-        return super().talk()
+        return self.generate_statement()
 
     def update_stances(self):
         # TODO: 直列なのどうにかする（async）
@@ -91,7 +90,7 @@ class Agent2024s(Agent):
         initializeを受け取ったタイミングで実行
         """
         statusMap = self.gameInfo["statusMap"]
-        self.predictions = Predictions(statusMap)
+        self.predictions = Predictions(f"{int(self.index):02d}", self.role, self.gameSetting["roleNumMap"] ,statusMap)
     
     def hand_over(self, new_agent) -> None:
         super().hand_over(new_agent)
