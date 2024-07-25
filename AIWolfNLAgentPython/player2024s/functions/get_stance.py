@@ -10,12 +10,25 @@ def get_stance(
         day_stances: dict[int, str],
         talk_history: TalkHistory) -> str:
     """
-    AgentのStanceの更新:
+    他のエージェントのスタンスをまとめる
+
+    Args:
+        my_agent_id (str): 自分のエージェントID
+        my_agent_role (str): 自分の役職
+        target_agent_id (str): 対象のエージェントID
+        day_stances (dict[int, str]): 日毎のスタンス
+        talk_history (TalkHistory): 発言履歴
+    
+    Returns:
+        str: その日の、この関数を呼び出した時点での対象エージェントのスタンス
     """
     
-    system = "あなたは人狼ゲームをプレイしています"
+    system = """
+    あなたはAgent[0{my_agent_id}]という名前で人狼ゲームをプレイしています。
+    あなたの役職は{my_agent_role}です。
+    """
+
     template = """
-    あなたの名前はAgent[0{my_agent_id}]で、役職は{my_agent_role}です。
     {talk_history}を参照して、Agent[0{target_agent_id}]の発言をまとめなさい。
     ただし、これまでの日毎の発言のまとめは以下のとおりです。
     {day_stances}
