@@ -1,6 +1,8 @@
 from player2024s.stance import Stance
 from player2024s.predict_role import Predictions
 from player2024s.functions.get_tactic import get_tactic
+from player2024s.functions.get_vote_target import get_vote_target
+import random
 
 class MyTactics():
     def __init__(self) -> None:
@@ -12,3 +14,16 @@ class MyTactics():
 
         if len(self.tactics) >= day: self.tactics.append("")
         self.tactics[day-1] = tactic # 同じ日のスタンスは上書きxw
+    
+    def decide_vote_target(self, agent_id: int, agent_role: str, alive: list[int]):
+        for _ in range(5):
+            target_id : int = get_vote_target(agent_id, agent_role, alive, self.tactics)
+
+            # target_idが生きているか
+            if target_id not in alive: continue
+
+            # target_idが自分自身でないか
+            if target_id == agent_id: continue
+
+            return target_id
+        return random.choice(alive)

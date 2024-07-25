@@ -63,6 +63,10 @@ class Agent2024s(Agent):
         self.update_my_tactics()
         # 発言
         return self.generate_statement()
+    
+    def vote(self) -> str:
+        data = {"agentIdx": self.decide_vote()}
+        return json.dumps(data, separators=(",",":"))
 
     def update_stances(self):
         # TODO: 直列なのどうにかする（async）
@@ -77,7 +81,10 @@ class Agent2024s(Agent):
 
     def generate_statement(self):
         return generate_statement(self.talkHistory, self.my_tactics)
-        
+
+    def decide_vote(self) -> int:
+        return self.my_tactics.decide_vote_target(self.index, self.role, self.alive)
+
     def init_stances(self):
         """
         initializeを受け取ったタイミングで実行

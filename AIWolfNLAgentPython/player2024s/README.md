@@ -9,3 +9,6 @@
 
 - update_my_tactics
   - 自分の取るべき戦略を決定
+
+- generate_statement
+  - 発言を生成
