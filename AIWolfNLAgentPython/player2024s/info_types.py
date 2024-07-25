@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Literal
 
 class Talk(BaseModel):
     agent: int
@@ -23,13 +23,19 @@ class PredictionRole(BaseModel):
 class PredictionRoleList(BaseModel):
     content: List[PredictionRole]
 
+class DivineResult(BaseModel):
+    agent: int
+    day: int
+    result: Literal["HUMAN", "WEREWOLF"]
+    target: int
+
 class GameInfo(BaseModel):
     agent: int
     attackVoteList: List[int]
     attackedAgent: int
     cursedFox: int
     day: int
-    divineResult: Optional[str] = None
+    divineResult: Optional[DivineResult] = None
     englishTalkList: List[Dict[str, str]]
     executedAgent: int
     existingRoleList: List[str]

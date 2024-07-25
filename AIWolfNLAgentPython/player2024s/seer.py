@@ -2,24 +2,29 @@ import configparser
 import json
 import player2024s
 import lib
+from player2024s.info_types import DivineResult
+from typing import List
 
 class Seer(player2024s.agent.Agent2024s):
     def __init__(self, inifile:configparser.ConfigParser, name:str) -> None:
         super().__init__(inifile=inifile, name=name)
+        self.divine_results: List[DivineResult] = []
     
     def parse_info(self, receive: str) -> None:
         return super().parse_info(receive)
     
     def get_info(self):
         super().get_info()
-    
-        # print("\n")
-        # print(f"myRole: {type(self)}")
-        # print(f"gameInfo: {self.gameInfo}")
-        # print(f"gameSetting: {self.gameSetting}")
-        # print(f"request: {self.request}")
-        # print(f"talkHistory: {self.talkHistory}")
-        # print(f"whisperHistory: {self.whisperHistory}")
+
+        game_info = self.gameInfo
+        if game_info is None:
+            return 
+        divine_result = game_info["divineResult"]
+        if divine_result is None:
+            return
+        
+        if divine_result["day"] not in [existing_divine["day"] for existing_divine in self.divine_results]:
+            self.divine_results.append(divine_result)
 
         return
     
@@ -40,6 +45,9 @@ class Seer(player2024s.agent.Agent2024s):
     
     def talk(self) -> str:
         return super().talk()
+
+    def update_predictions(self):
+        self.predictions.update(self.stances, self.divine_results)
     
     def vote(self) -> str:
         return super().vote()
