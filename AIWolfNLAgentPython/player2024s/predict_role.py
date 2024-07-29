@@ -16,11 +16,11 @@ class Predictions():
         # self.reasons: str = None
     
     def update_alive(self, alive: list[int]):
+        print("--- Predict Role ---")
         for predict_role in self.predict_roles:
-            print("--- Predict Role ---")
             print(predict_role)
-            print("------")
             predict_role.alive = int(predict_role.agent_id) in alive
+        print("------")
     
     def update(self, stances: list[Stance], divine_results: Optional[List[DivineResult]] = None):
         if divine_results is None:

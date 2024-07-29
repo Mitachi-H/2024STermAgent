@@ -25,7 +25,7 @@ def get_vote_target(
     system = "あなたは人狼ゲームをプレイしています"
     template = """
     あなたの名前はAgent[0{agent_id}]です。あなたの役職は{role}です。
-    このゲームに勝利するために今日の投票先を決定しなさい。
+    このゲームに勝利するために今日どのエージェントを処刑するべきか、エージェントのidをintで指定してください。
     投票数が最も多かったエージェントは処刑されます。
 
     生存者のidは以下の通りです。
@@ -38,5 +38,8 @@ def get_vote_target(
 
     output: VoteTarget = openai_agent.json_mode_chat(system, template, input, pydantic_object=VoteTarget)
 
+    print("--- Vote Target ---")
     print(output)
+    print(input)
+    print("------")
     return output.target_id

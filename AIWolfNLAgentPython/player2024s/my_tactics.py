@@ -25,5 +25,9 @@ class MyTactics():
             # target_idが自分自身でないか
             if target_id == agent_id: continue
 
+            print(f"投票先を決定: 自分のid: {agent_id}, target: {target_id}")
             return target_id
-        return random.choice(alive)
+        print("Error: 5回試行しても投票先が決まらなかった")
+        target = random.choice(alive)
+        print(f"ランダムに投票先を決定: 自分のid: {agent_id}, target: {target}")
+        return target
