@@ -49,7 +49,8 @@ def get_prediction_role(
     output: PredictionRoleList = openai_agent.json_mode_chat(system, template, input, pydantic_object=PredictionRoleList)
     # print(output)
     # print("\n")
-    return output
+    result: list[PredictionRole] = output.content
+    return result
 
 def get_prediction_role_for_seer(
         my_agent_id: str,
@@ -97,7 +98,8 @@ def get_prediction_role_for_seer(
     output: PredictionRoleList = openai_agent.json_mode_chat(system, template, input, pydantic_object=PredictionRoleList)
     # print(output)
     # print("\n")
-    return output
+    result: list[PredictionRole] = output.content
+    return result
 
 
 def get_str_stance(stance: Stance) -> str:
