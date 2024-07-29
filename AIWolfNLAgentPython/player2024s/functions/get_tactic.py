@@ -20,13 +20,14 @@ def get_tactic(
 
     system = "あなたは人狼ゲームをプレイしています"
     template = """
-    あなたの名前はAgent[0{agent_id}]です。次にとるべき戦略を考えなさい。
+    あなたの名前はAgent[0{agent_id}]です。次にとるべき戦略を端的に述べなさい。
     あなたの過去の戦略は以下のとおりです。
     {prev_tactics}
     ただし、これまでの発言のまとめは以下のとおりです。
     {stances}
     また各Agentの役職を推定結果は以下のとおりです。
     {predictions}
+    次に自分が取るべき戦略を、端的に(100字程度で)述べなさい。
     """
 
     input = {"agent_id": agent_id, "stances": get_str_stances(stances), "predictions": get_str_predictions(predictions), "prev_tactics": get_str_prev_tactics(prev_tactics)}
