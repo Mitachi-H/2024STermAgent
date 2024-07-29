@@ -15,7 +15,7 @@ class TalkHistory(List[Talk]):
     """
 
 class PredictionRole(BaseModel):
-    agent_id: str
+    agent_id: int
     alive: bool
     role: Optional[str] = Field(default=None)
     reason: Optional[str] = Field(default=None)

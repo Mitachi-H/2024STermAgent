@@ -1,7 +1,7 @@
 from player2024s.stance import Stance
 from player2024s.functions.get_prediction_role import get_prediction_role, get_prediction_role_for_seer
 from player2024s.info_types import PredictionRole, DivineResult
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 
 class Predictions():
@@ -22,7 +22,7 @@ class Predictions():
             print("------")
             predict_role.alive = int(predict_role.agent_id) in alive
     
-    def update(self, stances: list[Stance], divine_results: List[DivineResult] = None):
+    def update(self, stances: list[Stance], divine_results: Optional[List[DivineResult]] = None):
         if divine_results is None:
             prediction_role: list[PredictionRole] = get_prediction_role(self.my_agent_id, self.my_agent_role, self.roleNumMap, stances, self.predict_roles)
         else:
