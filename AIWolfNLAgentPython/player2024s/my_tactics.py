@@ -3,6 +3,7 @@ from player2024s.predict_role import Predictions
 from player2024s.functions.get_tactic import get_tactic
 from player2024s.functions.get_vote_target import get_vote_target
 import random
+from player2024s.dev_functions.log import log
 
 class MyTactics():
     def __init__(self) -> None:
@@ -25,9 +26,11 @@ class MyTactics():
             # target_idが自分自身でないか
             if target_id == agent_id: continue
 
-            print(f"投票先を決定: 自分のid: {agent_id}, target: {target_id}")
+            # print(f"投票先を決定: 自分のid: {agent_id}, target: {target_id}")
+            log(agent_id,[f"投票先を決定: 自分のid: {agent_id}, target: {target_id}"])
             return target_id
-        print("Error: 5回試行しても投票先が決まらなかった")
+        # print("Error: 5回試行しても投票先が決まらなかった")
         target = random.choice(alive)
-        print(f"ランダムに投票先を決定: 自分のid: {agent_id}, target: {target}")
+        # print(f"ランダムに投票先を決定: 自分のid: {agent_id}, target: {target}")
+        log(agent_id, ["Error: 5回試行しても投票先が決まらなかった", f"ランダムに投票先を決定: 自分のid: {agent_id}, target: {target}"])
         return target

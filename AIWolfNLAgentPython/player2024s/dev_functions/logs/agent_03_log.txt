@@ -1,0 +1,7 @@
+--predict role--
+agent_id=1 alive=True role=None reason=None
+agent_id=2 alive=True role=None reason=None
+agent_id=3 alive=True role=None reason=None
+agent_id=4 alive=True role=None reason=None
+agent_id=5 alive=True role=None reason=None
+-----
