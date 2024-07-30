@@ -10,6 +10,8 @@ from player2024s.functions.generate_statement import generate_statement
 from player2024s.info_types import GameInfo, GameSetting, TalkHistory
 from typing import Union
 
+from player2024s.dev_functions.log import clear_log
+
 class Agent2024s(Agent):
     def __init__(self, inifile: configparser.ConfigParser, name: str) -> None:
         super().__init__(inifile, name)
@@ -42,6 +44,8 @@ class Agent2024s(Agent):
         # 考察Classの初期化
         self.init_stances()
         self.init_predictions()
+
+        clear_log(self.index) # ログの初期化
     
     def daily_initialize(self):
         # self.alive は 生きてるagentのagentIdのリスト
