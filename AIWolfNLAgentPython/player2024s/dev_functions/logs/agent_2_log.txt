@@ -1,0 +1,14 @@
+--predict role--
+agent_id=1 alive=True role=None reason=None
+agent_id=2 alive=True role=None reason=None
+agent_id=3 alive=True role=None reason=None
+agent_id=4 alive=True role=None reason=None
+agent_id=5 alive=True role=None reason=None
+-----
+--predict role--
+agent_id=1 alive=True role='村人' reason='彼の発言は常に村人を守る方向にあり、疑いを向けられても冷静に反論している。'
+agent_id=2 alive=True role='人狼' reason='彼の発言には常に他のプレイヤーを疑う戦略が見られ、村人を積極的に排除しようとしている。'
+agent_id=3 alive=True role='占い師' reason='彼は特定のプレイヤーを占いたいと述べていることがあり、他の発言者の役職に興味を示している。'
+agent_id=4 alive=True role='村人' reason='彼は他のプレイヤーをサポートするための情報を提供しており、狼の疑いをもっていない。'
+agent_id=5 alive=True role='人狼' reason='発言が他のメンバーの意見を分断させ、人狼仲間を支持する内容であった。'
+-----

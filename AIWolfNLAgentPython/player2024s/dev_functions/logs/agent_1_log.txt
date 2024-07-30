@@ -1,0 +1,13 @@
+--predict role--
+agent_id=1 alive=True role=None reason=None
+agent_id=2 alive=True role=None reason=None
+agent_id=3 alive=True role=None reason=None
+agent_id=4 alive=True role=None reason=None
+agent_id=5 alive=True role=None reason=None
+-----
+--predict role--
+agent_id=1 alive=True role='Villager' reason='発言内容が一般的な村人の意見に沿っており、特定の候補者を攻撃していない。'
+agent_id=2 alive=True role='Werewolf' reason='他のエージェントを疑う発言が目立ち、村人を混乱させようとしているように見える。'
+agent_id=3 alive=True role='Seer' reason='他のエージェントの役職を予想しており、特に現役職を確認する発言があったため。'
+agent_id=4 alive=True role=None reason='役職を確認する発言がなかったが、他の発言との整合性が取れていない。'
+-----

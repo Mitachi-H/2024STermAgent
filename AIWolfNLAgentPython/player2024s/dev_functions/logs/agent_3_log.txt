@@ -1,0 +1,14 @@
+--predict role--
+agent_id=1 alive=True role=None reason=None
+agent_id=2 alive=True role=None reason=None
+agent_id=3 alive=True role=None reason=None
+agent_id=4 alive=True role=None reason=None
+agent_id=5 alive=True role=None reason=None
+-----
+--predict role--
+agent_id=1 alive=True role='狼' reason='divine_resultsでは、彼が狼と推定されており、発言もその行動と一致しているため。'
+agent_id=2 alive=True role='村人' reason='彼は他のエージェントの発言を支持し続け、矛盾した行動を示していないため。'
+agent_id=3 alive=False role='狂人' reason='彼は自分の役職を明かさずに混乱を招いており、divine_resultsでも彼の行動に一貫性が見られないため。'
+agent_id=4 alive=True role='占い師' reason='彼の発言から、他のエージェントの役職を把握する情報が読み取れるため。'
+agent_id=5 alive=True role=None reason='発言内容が曖昧であり、他のエージェントとの関係性から役職を判定しきれないため。'
+-----

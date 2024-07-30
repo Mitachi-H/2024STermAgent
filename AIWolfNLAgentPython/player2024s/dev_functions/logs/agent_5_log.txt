@@ -1,0 +1,15 @@
+--predict role--
+agent_id=1 alive=True role=None reason=None
+agent_id=2 alive=True role=None reason=None
+agent_id=3 alive=True role=None reason=None
+agent_id=4 alive=True role=None reason=None
+agent_id=5 alive=True role=None reason=None
+-----
+--predict role--
+agent_id=1 alive=True role='村人' reason='日中の発言から、他のエージェントを守る姿勢が強く、攻撃的な行動が見られなかったため。'
+agent_id=2 alive=True role='人狼' reason='他のエージェントを疑う発言が多く、自身を擁護するための発言が目立ったため。'
+agent_id=3 alive=True role='占い師' reason='特定のエージェントに対する詳細な情報を持っており、推測が正確と思われるため。'
+agent_id=4 alive=True role='騎士' reason='誰かを守ると宣言し、他のエージェントに対して守りの姿勢を示しているため。'
+agent_id=5 alive=True role='村人' reason='特に目立った意見を持たず、他の人の発言を受け入れる姿勢が強かったため。'
+agent_id=6 alive=True role='人狼' reason='不自然なまでに他の人を攻撃する傾向があり、潜伏人狼である可能性が高いため。'
+-----

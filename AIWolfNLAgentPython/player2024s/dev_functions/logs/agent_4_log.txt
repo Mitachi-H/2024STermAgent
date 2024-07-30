@@ -1,0 +1,14 @@
+--predict role--
+agent_id=1 alive=True role=None reason=None
+agent_id=2 alive=True role=None reason=None
+agent_id=3 alive=True role=None reason=None
+agent_id=4 alive=True role=None reason=None
+agent_id=5 alive=True role=None reason=None
+-----
+--predict role--
+agent_id=1 alive=True role='村人' reason='他のエージェントとのやりとりで中立的な発言をしており、特定の役職を主張する様子がないため。'
+agent_id=2 alive=True role='人狼' reason='発言から他のエージェントに対して疑念を持たせるような情報操作を行っていたため。'
+agent_id=3 alive=True role='占い師' reason='特定のエージェントを優先的に疑い、その結果を発表して多数のエージェントから信頼を得ていたため。'
+agent_id=4 alive=True role='村人' reason='特に目立った行動がなく、他のエージェントに対する支持を示していたため。'
+agent_id=5 alive=True role='狂人' reason='常に他のエージェントの意見に逆らう発言をし、混乱を招くような行動をとっていたため。'
+-----
