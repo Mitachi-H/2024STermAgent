@@ -19,11 +19,15 @@ class Stance():
     def update_alive(self, alive: bool) -> None:
         self.alive = alive
     
-    def update(self, day:int, talk_history: TalkHistory) -> None:
-        if not self.alive: return
+    def update(self, day: int, talk_history: TalkHistory) -> None:
+        if not self.alive:
+            return
+
         # 最初の発言の場合はupdate不要
-        if len(talk_history) == 0: return
+        if len(talk_history) == 0:
+            return
 
-        stance:str = get_stance(self.my_agent_id, self.my_agent_role, self.target_agent_id, self.day_stances, talk_history)
+        stance: str = get_stance(self.my_agent_id, self.my_agent_role, self.target_agent_id, self.day_stances, talk_history)
 
-        self.day_stances[day-1] = stance # 同じ日のスタンスは上書き
+        # 同じ日のスタンスを上書き
+        self.day_stances[day-1] = stance

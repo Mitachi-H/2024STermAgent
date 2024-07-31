@@ -24,24 +24,44 @@ def get_stance(
     """
     
     system = """
-    あなたはAgent[0{my_agent_id}]という名前で人狼ゲームをプレイしています。
-    あなたの役職は{my_agent_role}です。
-    """
+あなたはAgent[{my_agent_id}]という名前で人狼ゲームをプレイしています。
+あなたの役職は{my_agent_role}です。
+"""
 
     template = """
-    {talk_history}を参照して、Agent[0{target_agent_id}]の発言をまとめなさい。
-    ただし、これまでの日毎の発言のまとめは以下のとおりです。
-    {day_stances}
-    """
+# 指示
+このプロンプトでは、人狼ゲームにおける特定のエージェント（Agent[{target_agent_id}]）の発言と行動から情報を抽出し、そのエージェントのスタンスを評価します。対象エージェントの行動、役職推測、同意・非同意の表明などから、そのエージェントの意図や戦略を理解し、自エージェントの戦略に反映させる必要があります。
 
-    input = {"my_agent_id": my_agent_id, "my_agent_role": my_agent_role, "target_agent_id": target_agent_id, "day_stances": get_str_day_stances(day_stances), "talk_history": get_str_talk_history(talk_history)}
+# 注意点
+Agent[{target_agent_id}]がまだ発言していない場合、まとめは行わないでください。その場合出力は空欄としてください。
 
-    output = openai_agent.chat(system, template, input)
-    return output
+# タスク
+1. 対象エージェントAgent[{target_agent_id}]が他のエージェントの役職についてどのように推測または宣言しているかを報告してください。
+2. 対象エージェントAgent[{target_agent_id}]の最近の同意または非同意の行動を確認し、その基になる理由を考察してください。
+
+# 出力形式
+- 出力は以下の形式で整理してください：
+  - 同意または非同意の行動: ...
+  - 戦略予測: ...
+
+# データ
+- 発言履歴
+{talk_history}
+"""
+
+    try:
+        input = {"my_agent_id": my_agent_id, "my_agent_role": my_agent_role, "target_agent_id": target_agent_id, "day_stances": get_str_day_stances(day_stances), "talk_history": get_str_talk_history(talk_history)}
+
+        output = openai_agent.chat(system, template, input)
+
+        return output
+    except Exception as e:
+        print("error:", e)
+        return ""
 
 def get_str_day_stances(day_stances: dict[int, str]) -> str:
     return str(day_stances)
 
 def get_str_talk_history(talk_history: TalkHistory) -> str:
-    # MEMO: day, idx, turnはいらなそう
-    return "".join([str(talk) for talk in talk_history])
+    # MEMO: f-stringで書きたいが、[]をエスケープする必要があるため、+演算子で結合
+    return "\n".join(["Agent[0" + str(talk["agent"]) + "]\n" + talk["text"] for talk in talk_history])

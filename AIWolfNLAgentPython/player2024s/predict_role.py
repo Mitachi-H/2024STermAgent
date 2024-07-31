@@ -23,12 +23,8 @@ class Predictions():
         # self.reasons: str = None
     
     def update_alive(self, alive: list[int]):
-        log(self.my_agent_id, ["--predict role--"])
         for predict_role in self.predict_roles:
-            # print(predict_role)
-            log(self.my_agent_id, [predict_role])
             predict_role.alive = int(predict_role.agent_id) in alive
-        log(self.my_agent_id, ["-----"])
     
     def update(self, stances: list[Stance], divine_results: Optional[List[DivineResult]] = None):
         if divine_results is None:

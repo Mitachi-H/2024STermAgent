@@ -25,22 +25,22 @@ class OpenAIAgent():
         self.json_llm = self.llm.bind(response_format={"type": "json_object"})
     
     def chat(self, system: str, template: Literal["f-string", "mustache"], input: Input) -> str:
-        prompt = ChatPromptTemplate.from_messages([
-            ("system", system),
-            ("user", template)
-        ])
-        # チャットメッセージを文字列に変換するための出力解析インスタンスを作成
         output_parser = StrOutputParser()
 
-        # OpenAIのAPIにこのプロンプトを送信するためのチェーンを作成
+        prompt = ChatPromptTemplate.from_messages(
+            [
+                ("system", "{system}"),
+                ("human", "{template}"),
+            ]
+        )
+
         chain = prompt | self.llm | output_parser
 
-        return chain.invoke(input)
+        return chain.invoke({"system": system.format(**input), "template": template.format(**input)})
 
     def json_mode_chat(self, system: str, template: Literal["f-string", "mustache"], input: Input, pydantic_object: Type[BaseModel]) -> dict:
         output_parser = PydanticOutputParser(pydantic_object=pydantic_object)
 
-        # Prompt
         prompt = ChatPromptTemplate.from_messages(
             [
                 (
@@ -51,29 +51,7 @@ class OpenAIAgent():
             ]
         ).partial(format_instructions=output_parser.get_format_instructions())
 
-        # OpenAIのAPIにこのプロンプトを送信するためのチェーンを作成
         chain = prompt | self.json_llm | output_parser
 
-        return chain.invoke({"system": system, "template": template, **input})
+        return chain.invoke({"system": system.format(**input), "template": template.format(**input)})
 
-    def test_chat(self):
-        # プロンプトのテンプレート文章を定義
-        template = """
-        次の文章に誤字がないか調べて。誤字があれば訂正してください。
-        {sentences_before_check}
-        """
-
-        # テンプレート文章にあるチェック対象の単語を変数化
-        prompt = ChatPromptTemplate.from_messages([
-            ("system", "あなたは優秀な校正者です。"),
-            ("user", template)
-        ])
-
-        # チャットメッセージを文字列に変換するための出力解析インスタンスを作成
-        output_parser = StrOutputParser()
-
-        # OpenAIのAPIにこのプロンプトを送信するためのチェーンを作成
-        chain = prompt | self.llm | output_parser
-
-        # チェーンを実行し、結果を表示
-        print(chain.invoke({"sentences_before_check": "こんんんちわ、真純です。"}))

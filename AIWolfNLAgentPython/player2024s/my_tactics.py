@@ -3,18 +3,20 @@ from player2024s.predict_role import Predictions
 from player2024s.functions.get_tactic import get_tactic
 from player2024s.functions.get_vote_target import get_vote_target
 import random
+from typing import Dict
 from player2024s.dev_functions.log import log
 
 class MyTactics():
-    def __init__(self) -> None:
-        self.tactics: list[str] = [] # 日毎の戦略
-        pass
+    def __init__(self, my_agent_id: str, my_agent_role: str, roleNumMap: Dict[str, int]) -> None:
+        self.my_agent_id: str = my_agent_id
+        self.my_agent_role: str = my_agent_role
+        self.roleNumMap: Dict[str, int] = roleNumMap
+        self.tactics: dict[int, str] = {}
 
-    def update(self,agent_id: int, day:int, stances: list[Stance], predictions: Predictions):
-        tactic:str = get_tactic(agent_id, stances, predictions, self.tactics)
+    def update(self, day:int, stances: list[Stance], predictions: Predictions):
+        tactic:str = get_tactic(self.my_agent_id, self.my_agent_role, self.roleNumMap, stances, predictions, self.tactics)
 
-        if len(self.tactics) >= day: self.tactics.append("")
-        self.tactics[day-1] = tactic # 同じ日のスタンスは上書きxw
+        self.tactics[day-1] = tactic # 同じ日のスタンスは上書き
     
     def decide_vote_target(self, agent_id: int, agent_role: str, alive: list[int]):
         for _ in range(5):

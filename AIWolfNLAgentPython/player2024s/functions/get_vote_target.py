@@ -11,7 +11,7 @@ def get_vote_target(
         agent_id: int,
         role: str,
         alive: list[int],
-        my_tactics: list[str]
+        my_tactics: dict[int, str]
     ) -> int:
     """
     投票先の決定
@@ -34,12 +34,15 @@ def get_vote_target(
     {my_tactics}
     """
 
-    input = {"agent_id": agent_id, "role": role, "alive": alive, "my_tactics": my_tactics}
+    input = {"agent_id": agent_id, "role": role, "alive": alive, "my_tactics": get_str_my_tactics(my_tactics)}
 
     output: VoteTarget = openai_agent.json_mode_chat(system, template, input, pydantic_object=VoteTarget)
 
-    print("--- Vote Target ---")
-    print(output)
-    print(input)
-    print("------")
+    # print("--- Vote Target ---")
+    # print(output)
+    # print(input)
+    # print("------")
     return output.target_id
+
+def get_str_my_tactics(my_tactics: dict[int, str]):
+    return " ".join([f"day: {day}, tactic: {tactic}" for day, tactic in my_tactics.items()])
