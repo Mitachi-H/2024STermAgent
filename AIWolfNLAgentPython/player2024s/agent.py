@@ -11,7 +11,7 @@ from player2024s.functions.generate_statement import generate_statement
 from player2024s.info_types import GameInfo, GameSetting, TalkHistory
 from typing import Union
 
-from player2024s.dev_functions.log import clear_log, log
+from player2024s.dev_functions.log import clear_log, log, log_talk
 
 class Agent2024s(Agent):
     def __init__(self, inifile: configparser.ConfigParser, name: str) -> None:
@@ -73,14 +73,37 @@ class Agent2024s(Agent):
         self.update_my_tactics()
         # 発言（改行は含めない）
         statement = self.generate_statement().replace("\n", " ")
-        print("\n")
-        print(f"Agent[0{self.index}] - role: {self.role}")
-        print(statement)
+        self.save_talk_log(statement)
         return statement
+
+    def save_talk_log(self, statement: str):
+        msg=f"""
+-----TALK-----
+--update stances--
+{"\n".join([f"{stance.target_agent_id} - {stance.day_stances}" for stance in self.stances])}
+
+--update predictions--
+{"\n".join([f"{predict_role.agent_id} - {predict_role.role} - {predict_role.reason}" for predict_role in self.predictions.predict_roles])}
+
+--update my_tactics--
+{self.my_tactics.tactics}
+
+--statement--
+{statement}
+--------------
+"""
+        log(self.index, [msg])
+        log_talk(self.index, self.role, statement)
     
     def vote(self) -> str:
-        data = {"agentIdx": self.decide_vote()}
+        target_id = self.decide_vote()
+        self.save_vote_log(target_id)
+
+        data = {"agentIdx": target_id}
         return json.dumps(data, separators=(",",":"))
+
+    def save_vote_log(self, target_id:int):
+        log(self.index,[f"投票先を決定: 自分のid: {self.index}, target: {target_id}"])
 
     def update_stances(self):
         # スレッドプールエグゼキュータを使用して並列に処理
@@ -89,26 +112,12 @@ class Agent2024s(Agent):
             futures = [executor.submit(stance.update, self.day, self.talkHistory) for stance in self.stances]
             # 全てのタスクが完了するのを待つ
             concurrent.futures.wait(futures)
-        
-        log(self.index, ["--update stances--"])
-        for stance in self.stances:
-            log(self.index, [f"{stance.target_agent_id} - {stance.day_stances}"])
-        log(self.index, ["-----"])
     
     def update_predictions(self):
         self.predictions.update(self.stances)
 
-        log(self.index, ["--update predictions--"])
-        for predict_role in self.predictions.predict_roles:
-            log(self.index, [f"{predict_role.agent_id} - {predict_role.role} - {predict_role.reason}"])
-        log(self.index, ["-----"])
-
     def update_my_tactics(self):
         self.my_tactics.update(self.day, self.stances, self.predictions)
-
-        log(self.index, ["--update my_tactics--"])
-        log(self.index, [f"{self.my_tactics.tactics}"])
-        log(self.index, ["-----"])
 
     def generate_statement(self):
         return generate_statement(f"{int(self.index):02d}", self.role, self.talkHistory, self.my_tactics)

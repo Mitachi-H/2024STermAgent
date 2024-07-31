@@ -24,3 +24,17 @@ def clear_log(agent_id: int):
 
     with open(filename, "w", encoding="utf-8") as f:
         pass
+
+def log_talk(agent_id: int, role: str, statement: str):
+
+    if type(agent_id) != int:
+        agent_id = int(agent_id)
+    
+    filename = "player2024s/dev_functions/logs/talk_history_log.txt"
+
+    with open(filename, "a", encoding="utf-8") as f:
+        msg = f"""
+Agent[0{agent_id}] - role: {role}
+{statement}
+"""
+        print(msg, file=f)
