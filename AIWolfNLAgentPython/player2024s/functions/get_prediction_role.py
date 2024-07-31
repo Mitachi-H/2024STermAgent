@@ -93,7 +93,7 @@ def get_prediction_role_for_seer(
         system = """
     あなたはAgent[0{my_agent_id}]という名前で人狼ゲームをプレイしています。
     ゲームの参加者は全部で{num_agents}人です。
-    あなたの役職は{my_agent_role}です。また、各役職の人数は以下の通りです。
+    あなたの役職はSEERです。また、各役職の人数は以下の通りです。
     {roleNumMap}
         """
 
@@ -104,8 +104,9 @@ def get_prediction_role_for_seer(
 情報が不足している場合は、役職を特定できないことを示すためにroleと理由(reason)を「役職の予想に必要な情報が不足している」に設定してください。
 
 # 注意点
+- 占い結果はHUMAN(POSSESSEDも含まれる)またはWEREWOLFのいずれかであり、確定情報として、役職予想に積極的に活用してください。
 - 複数の役職が考えられる場合は、それぞれの役職に対する確率を評価し、最も可能性が高い役職から順に記載します。
-- 自分の役職は確定しているため、自分のエージェント(Agent[{my_agent_id}])については、roleは「{my_agent_role}」と、reasonは「自分の役職は確定している」と設定してください。
+- 自分の役職は確定しているため、自分のエージェント(Agent[{my_agent_id}])については、roleは「SEER」と、reasonは「自分の役職は確定している」と設定してください。
 
 # 出力形式
 以下のPredictionRoleList形式で出力してください。ただし出力は`json`タグで囲んでください。（PredictionRoleListはPredictionRoleのリストです。）

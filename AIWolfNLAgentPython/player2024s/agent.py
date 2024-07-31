@@ -71,8 +71,12 @@ class Agent2024s(Agent):
         self.update_predictions()
         # 自分の戦略の更新
         self.update_my_tactics()
-        # 発言
-        return self.generate_statement()
+        # 発言（改行は含めない）
+        statement = self.generate_statement().replace("\n", " ")
+        print("\n")
+        print(f"Agent[0{self.index}] - role: {self.role}")
+        print(statement)
+        return statement
     
     def vote(self) -> str:
         data = {"agentIdx": self.decide_vote()}
