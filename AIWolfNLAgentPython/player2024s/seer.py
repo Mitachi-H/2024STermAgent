@@ -5,6 +5,8 @@ import lib
 from player2024s.info_types import DivineResult
 from typing import List
 
+from player2024s.dev_functions.log import log
+
 class Seer(player2024s.agent.Agent2024s):
     def __init__(self, inifile:configparser.ConfigParser, name:str) -> None:
         super().__init__(inifile=inifile, name=name)
@@ -48,6 +50,11 @@ class Seer(player2024s.agent.Agent2024s):
 
     def update_predictions(self):
         self.predictions.update(self.stances, self.divine_results)
+
+        log(self.index, ["--update predictions--"])
+        for predict_role in self.predictions.predict_roles:
+            log(self.index, [f"{predict_role.agent_id} - {predict_role.role} - {predict_role.reason}"])
+        log(self.index, ["-----"])
     
     def vote(self) -> str:
         return super().vote()
@@ -56,7 +63,9 @@ class Seer(player2024s.agent.Agent2024s):
         return super().whisper()
 
     def divine(self) -> str:
-        data = {"agentIdx":lib.util.random_select(self.alive)}
+        # 占う対象の集合 = 生きている + まだ占っていない + 自分でない
+        reasonable_divine_targets = [int(agent_id) for agent_id in self.alive if int(agent_id) != self.index and int(agent_id) not in [divine_result["target"] for divine_result in self.divine_results]]
+        data = {"agentIdx":lib.util.random_select(reasonable_divine_targets)}
 
         return json.dumps(data,separators=(",",":"))
     

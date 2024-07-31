@@ -38,7 +38,9 @@ class Werewolf(player2024s.agent.Agent2024s):
         return super().whisper()
 
     def attack(self):
-        data = {"agentIdx":lib.util.random_select(self.alive)}
+        # 攻撃の対象の集合 = 生きている + 自分でない
+        reasonable_targets = set(self.alive) - set([self.index])
+        data = {"agentIdx":lib.util.random_select(list(reasonable_targets))}
 
         return json.dumps(data,separators=(",",":"))
     

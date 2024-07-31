@@ -88,15 +88,16 @@ def get_prediction_role_for_seer(
     """
     占い師用の予想役職の更新。占い結果もプロンプトに含める
     """
-    num_agents = sum(roleNumMap.values())
-    system = """
-あなたはAgent[0{my_agent_id}]という名前で人狼ゲームをプレイしています。
-ゲームの参加者は全部で{num_agents}人です。
-あなたの役職は{my_agent_role}です。また、各役職の人数は以下の通りです。
-{roleNumMap}
-    """
+    try:
+        num_agents = sum(roleNumMap.values())
+        system = """
+    あなたはAgent[0{my_agent_id}]という名前で人狼ゲームをプレイしています。
+    ゲームの参加者は全部で{num_agents}人です。
+    あなたの役職は{my_agent_role}です。また、各役職の人数は以下の通りです。
+    {roleNumMap}
+        """
 
-    template = """
+        template = """
 # 指示
 このプロンプトでは、人狼ゲームにおける各エージェントの役職を予測することを目的としています。
 予測はエージェントの発言のまとめと過去の役職推定を基に行います。この際、各役職の人数や占い結果などの確定情報と矛盾がないか確認してください。
@@ -128,19 +129,22 @@ class PredictionRole(BaseModel):
 {prev_predict_roles}
 """
 
-    input = {
-        "my_agent_id": my_agent_id,
-        "my_agent_role": my_agent_role,
-        "roleNumMap": get_str_roleNumMap(roleNumMap),
-        "stances": get_str_stances(stances),
-        "prev_predict_roles": get_str_prev_predict_roles(prev_predict_roles),
-        "num_agents": num_agents,
-        "divine_results": get_str_divine_results(divine_results)
-    }
+        input = {
+            "my_agent_id": my_agent_id,
+            "my_agent_role": my_agent_role,
+            "roleNumMap": get_str_roleNumMap(roleNumMap),
+            "stances": get_str_stances(stances),
+            "prev_predict_roles": get_str_prev_predict_roles(prev_predict_roles),
+            "num_agents": num_agents,
+            "divine_results": get_str_divine_results(divine_results)
+        }
 
-    output: PredictionRoleList = openai_agent.json_mode_chat(system, template, input, pydantic_object=PredictionRoleList)
-    result: list[PredictionRole] = output.content
-    return result
+        output: PredictionRoleList = openai_agent.json_mode_chat(system, template, input, pydantic_object=PredictionRoleList)
+        result: list[PredictionRole] = output.content
+        return result
+    except Exception as e:
+        print(e)
+        return []
 
 def get_str_roleNumMap(roleNumMap: Dict[str, int]) -> str:
     # MEMO: num > 0 のroleのみ表示

@@ -37,16 +37,20 @@ def generate_statement(
 
     """
 
-    input = {
-        "my_agent_id": my_agent_id,
-        "my_agent_role": my_agent_role,
-        "talk_history": get_str_talk_history(talk_history),
-        "my_tactics": get_str_my_tactics(my_tactics)
-        }
+    try:
+        input = {
+            "my_agent_id": my_agent_id,
+            "my_agent_role": my_agent_role,
+            "talk_history": get_str_talk_history(talk_history),
+            "my_tactics": get_str_my_tactics(my_tactics)
+            }
 
-    output = openai_agent.chat(system, template, input)
-    # print(output)
-    return output
+        output = openai_agent.chat(system, template, input)
+        # print(output)
+        return output
+    except Exception as e:
+        print(e)
+        return "発言の生成に失敗しました"
 
 def get_str_my_tactics(my_tactics: MyTactics):
     my_day_tactics: dict[int, str] = my_tactics.tactics

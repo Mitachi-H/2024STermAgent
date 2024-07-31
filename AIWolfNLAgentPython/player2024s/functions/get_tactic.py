@@ -52,18 +52,22 @@ def get_tactic(
 {prev_tactics}
 """
 
-    input = {
-        "my_agent_id": my_agent_id,
-        "my_agent_role": my_agent_role,
-        "roleNumMap": get_str_roleNumMap(roleNumMap),
-        "stances": get_str_stances(stances),
-        "predictions": get_str_predictions(predictions),
-        "prev_tactics": get_str_prev_tactics(prev_tactics),
-        "num_agents": num_agents
-    }
+    try:
+        input = {
+            "my_agent_id": my_agent_id,
+            "my_agent_role": my_agent_role,
+            "roleNumMap": get_str_roleNumMap(roleNumMap),
+            "stances": get_str_stances(stances),
+            "predictions": get_str_predictions(predictions),
+            "prev_tactics": get_str_prev_tactics(prev_tactics),
+            "num_agents": num_agents
+        }
 
-    output = openai_agent.chat(system, template, input)
-    return output
+        output = openai_agent.chat(system, template, input)
+        return output
+    except Exception as e:
+        print(e)
+        return ""
 
 def get_str_roleNumMap(roleNumMap: Dict[str, int]) -> str:
     # MEMO: num > 0 のroleのみ表示
